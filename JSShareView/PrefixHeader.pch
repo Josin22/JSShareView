@@ -1,0 +1,25 @@
+//
+//  PrefixHeader.pch
+//  JSShareView
+//
+//  Created by 乔同新 on 16/6/7.
+//  Copyright © 2016年 乔同新. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#import "UIView+YYAdd.h"
+
+#define XNColor(r, g, b, a)  [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+#define XNWindowWidth        ([[UIScreen mainScreen] bounds].size.width)
+
+#define XNWindowHeight       ([[UIScreen mainScreen] bounds].size.height)
+
+#define XNFont(font)         [UIFont systemFontOfSize:(font)]
+
+#define XNWidth_Scale        [UIScreen mainScreen].bounds.size.width/375.0f
+
+#endif /* PrefixHeader_pch */

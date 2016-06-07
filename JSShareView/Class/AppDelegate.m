@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "JSShareViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    JSShareViewController *shareVC = [[JSShareViewController alloc] init];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:shareVC];
+    
+    self.window.rootViewController = nav;
+    
     return YES;
 }
 
