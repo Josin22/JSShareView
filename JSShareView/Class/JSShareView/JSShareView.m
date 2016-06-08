@@ -16,7 +16,7 @@
 
 #import "JSShareView.h"
 #import "JSShareItemButton.h"
-//#import <ShareSDK/ShareSDK.h>
+#import <ShareSDK/ShareSDK.h>
 #import "UIView+YYAdd.h"
 
 //背景色
@@ -98,7 +98,7 @@ static JSShareView *shareView = nil;
                              ,@{@"复制链接":@"xn_share_copy"}]}];
     
     
-    /*
+    
     _typeArray1 = @[@(SSDKPlatformSubTypeWechatTimeline),
                     @(SSDKPlatformTypeWechat),
                     @(SSDKPlatformSubTypeQQFriend),
@@ -108,7 +108,7 @@ static JSShareView *shareView = nil;
     _typeArray2 = @[@(SSDKPlatformTypeSMS),
                     @(SSDKPlatformTypeMail),
                     @(SSDKPlatformTypeCopy)];
-     */
+    
     
     _ButtonTypeShareArray1 = [NSMutableArray array];
     _ButtonTypeShareArray2 = [NSMutableArray array];
@@ -124,7 +124,7 @@ static JSShareView *shareView = nil;
     CGRect finaRect = orginRect;
     finaRect.origin.y =  XNWindowHeight-SHARE_BG_HEIGHT;
     
-    /**************************************************************************/
+    /***************************** 添加底层bgView ********************************************/
     UIWindow *window  = [UIApplication sharedApplication].keyWindow;
 
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, XNWindowWidth, XNWindowHeight)];
@@ -135,6 +135,8 @@ static JSShareView *shareView = nil;
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:shareView action:@selector(dismissShareView)];
     [bgView addGestureRecognizer:tap1];
     
+    /***************************** 添加分享shareBGView ***************************************/
+    
     UIVisualEffectView *shareBGView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     shareBGView.frame = orginRect;
     shareBGView.userInteractionEnabled = YES;
@@ -143,7 +145,7 @@ static JSShareView *shareView = nil;
     
     UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:shareView action:@selector(tapNoe)];
     [shareBGView addGestureRecognizer:tap2];
-    /**************************************************************************/
+    /****************************** 添加item ************************************************/
     for (int i = 0; i<_DataArray.count; i++) {
         UIScrollView *rowScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, i*(SHARE_SCROLLVIEW_HEIGHT+0.5), shareBGView.width, SHARE_SCROLLVIEW_HEIGHT)];
         rowScrollView.directionalLockEnabled = YES;
@@ -157,10 +159,10 @@ static JSShareView *shareView = nil;
         rowScrollView.contentSize = CGSizeMake((SHARE_ITEM_WIDTH+SHARE_ITEM_SPACE_LEFT+SHARE_ITEM_SPACE)*itemArray.count, SHARE_SCROLLVIEW_HEIGHT);
         //按钮数组
         for (NSDictionary *itemDict in itemArray) {
-            NSInteger index = [itemArray indexOfObject:itemDict];
+            NSInteger index           = [itemArray indexOfObject:itemDict];
             JSShareItemButton *button = [JSShareItemButton shareButton];
-            CGFloat itemHeight = SHARE_ITEM_WIDTH+15;
-            CGFloat itemY = (SHARE_SCROLLVIEW_HEIGHT-itemHeight)/2;
+            CGFloat itemHeight        = SHARE_ITEM_WIDTH+15;
+            CGFloat itemY             = (SHARE_SCROLLVIEW_HEIGHT-itemHeight)/2;
             
             NSInteger imageTag = 0;
             if (i == 0) {
@@ -170,7 +172,6 @@ static JSShareView *shareView = nil;
                 imageTag = ROW2BUTTON_TAG+index;
                 [_ButtonTypeShareArray2 addObject:button];
             }
-            NSLog(@"imageTag:%@",@(imageTag));
             button = [[JSShareItemButton alloc] initWithFrame:CGRectMake(SHARE_ITEM_SPACE_LEFT+index*(SHARE_ITEM_WIDTH+SHARE_ITEM_SPACE), itemY+SHARE_ITEM_WIDTH, SHARE_ITEM_WIDTH, itemHeight)
                                                 ImageName:[itemDict allValues][0]
                                                  imageTag:imageTag
@@ -191,8 +192,6 @@ static JSShareView *shareView = nil;
             }
             
         }
-        
-        
         if (i == 0) {
             /*line*/
             UIView *lineView  = [[UIView alloc] initWithFrame:CGRectMake(SHARE_ITEM_SPACE_LEFT, rowScrollView.height, shareBGView.width-SHARE_ITEM_SPACE_LEFT*2, 0.5)];
@@ -200,7 +199,7 @@ static JSShareView *shareView = nil;
             [shareBGView addSubview:lineView];
         }
     }
-    /**************************************************************************/
+    /****************************** 取消 ********************************************/
     
     UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancleButton.frame = CGRectMake(0, shareBGView.height-40, shareBGView.width, 40);
@@ -211,7 +210,7 @@ static JSShareView *shareView = nil;
     [cancleButton addTarget:self action:@selector(dismissShareView) forControlEvents:UIControlEventTouchUpInside];
     [shareBGView addSubview:cancleButton];
     
-    /**************************************************************************/
+    /****************************** 动画 ********************************************/
     shareBGView.alpha = 0;
     [UIView animateWithDuration:0.35
                      animations:^{
@@ -251,7 +250,6 @@ static JSShareView *shareView = nil;
         }];
         
     }
-    NSLog(@"keywindow:----%@ \n bgView---%@",@(window.isUserInteractionEnabled),@(bgView.isUserInteractionEnabled));
 }
 
 - (void)shareTypeClickIndex:(UIButton *)btn{
@@ -263,19 +261,17 @@ static JSShareView *shareView = nil;
     NSInteger countRow2 = _typeArray2.count;
     
     // share type
-    
     NSUInteger typeUI = 0;
     if (intV>=0&&intV<=countRow1) {
         NSLog(@"第一行");
-//        typeUI = [_typeArray1[intV] unsignedIntegerValue];
+        typeUI = [_typeArray1[intV] unsignedIntegerValue];
         
     } else if (intV1>=0&&intV1<=countRow2){
         NSLog(@"第2行");
-//        typeUI = [_typeArray2[intV1] unsignedIntegerValue];
+        typeUI = [_typeArray2[intV1] unsignedIntegerValue];
     }
     
     //built share parames
-    /*
     NSDictionary *shareContent = (NSDictionary *)_publishContent;
     NSString *text             = shareContent[@"text"];
     NSArray *image             = shareContent[@"image"];
@@ -290,25 +286,25 @@ static JSShareView *shareView = nil;
     [ShareSDK share:typeUI
          parameters:shareParams
      onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
-         NSLog(@"state:%@  \n userData:%@  \n contentEntity:%@  \n error:%@",@(state),userData,contentEntity,error);
+
          switch (state) {
              case SSDKResponseStateSuccess:
              {
                  if (typeUI == SSDKPlatformTypeCopy) {
-                     [SVProgressHUD showSuccessWithStatus:@"复制成功~"];
+                     NSLog(@"复制成功~");
                  } else {
-                     [SVProgressHUD showSuccessWithStatus:@"分享成功~"];
+                     NSLog(@"分享成功~");
                  }
              }
                  break;
              case SSDKResponseStateFail:
              {
-                 [SVProgressHUD showSuccessWithStatus:@"分享失败~"];
+                 NSLog(@"分享失败~");
              }
                  break;
              case SSDKResponseStateCancel:
              {
-                 [SVProgressHUD showSuccessWithStatus:@"分享取消~"];
+                 NSLog(@"分享取消~");
              }
                  break;
              default:
@@ -316,7 +312,7 @@ static JSShareView *shareView = nil;
          }
      }];
     
-    */
+    
     [self dismissShareView];
     
     

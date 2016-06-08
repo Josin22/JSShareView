@@ -37,7 +37,7 @@
                                                    @"image":@"传入 url or image ",
                                                    @"url"  :@"传入链接"}
                                           Result:^(ShareType type, BOOL isSuccess) {
-                                              
+                                              //回调
                                           }];
 
 }
