@@ -132,7 +132,7 @@ static JSShareView *shareView = nil;
     bgView.tag = BG_TAG;
     [window addSubview:bgView];
     
-    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissShareView)];
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:shareView action:@selector(dismissShareView)];
     [bgView addGestureRecognizer:tap1];
     
     UIVisualEffectView *shareBGView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
@@ -141,7 +141,7 @@ static JSShareView *shareView = nil;
     shareBGView.backgroundColor = [SHARE_BG_COLOR colorWithAlphaComponent:0.5];
     [bgView addSubview:shareBGView];
     
-    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapNoe)];
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:shareView action:@selector(tapNoe)];
     [shareBGView addGestureRecognizer:tap2];
     /**************************************************************************/
     for (int i = 0; i<_DataArray.count; i++) {
@@ -179,7 +179,7 @@ static JSShareView *shareView = nil;
                                                titleColor:[UIColor blackColor]];
             
             button.tag = BUTTON_TAG+imageTag;
-            [button addTarget:self
+            [button addTarget:shareView
                        action:@selector(shareTypeClickIndex:)
              forControlEvents:UIControlEventTouchUpInside];
             
